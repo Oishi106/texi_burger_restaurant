@@ -7,8 +7,23 @@ const loadCatagory = () => {
 }
 
 const loadFoods = (id) => {
+  //1. food container ke hide korbo + loading ke show korbo
+  document.getElementById("food-container").classList.add("hidden")
+  document.getElementById("loading-spinner").classList.remove("hidden")
+  //2. eita display food a dekhabo
+
+
   //console.log("load foods called",id)
   const url = `https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`
+
+  //1.sobay ke niye ase active class remove kora
+  const catBtns = document.querySelectorAll(".btn-category")
+  catBtns.forEach(btn => btn?.classList?.remove("active"))
+
+  //2.jake click kora hoyeche take active class deua
+  const currentBtn = document.getElementById(`cat-btn-${id}`)
+  currentBtn?.classList?.add("active")
+
 
   fetch(url)
     .then(res => res.json())
@@ -51,7 +66,7 @@ const displayCatagory = (catagories) => {
     //3.create html elementss
     const catagoryCard = document.createElement("div");
     catagoryCard.innerHTML = `
-          <button onclick="loadFoods(${cat.id})" class="btn btn-block  justify-start shadow btn-category">
+          <button id="cat-btn-${cat.id}" onclick="loadFoods(${cat.id})" class="btn btn-block  justify-start shadow btn-category">
             <img
               src="${cat.categoryImg}"
               alt=""
@@ -63,8 +78,6 @@ const displayCatagory = (catagories) => {
     catContainer.append(catagoryCard);
   }
 }
-
-
 
 
 
@@ -109,7 +122,10 @@ const displayFood = (foods) => {
 
     foodContainer.append(foodCard);
   }
+  //2. food container ke show r loading ke hide korbo 
 
+    document.getElementById("food-container").classList.remove("hidden")
+  document.getElementById("loading-spinner").classList.add("hidden")
 
 
 }
